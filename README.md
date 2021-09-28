@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### Firebase Package
+
+This project uses ###Firebase^8.10
+
 ## Available Scripts
 
 In the project directory, you can run:
