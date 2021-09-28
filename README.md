@@ -4,7 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Firebase Package
 
-This project uses ###Firebase^8.10
+This project uses `Firebase^8.10`
 
 ## Available Scripts
 
