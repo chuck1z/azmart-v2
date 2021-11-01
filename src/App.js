@@ -7,21 +7,24 @@ import Checkout from "./Checkout";
 import Login from "./Login";
 import Payment from "./Payment";
 import Orders from "./Orders";
-import Seller from "./seller";
+import Seller from "./Seller";
 import { auth } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+import ProductScreen from "./ProductScreen";
+import Customer from "./Customer";
 
 const promise = loadStripe(
   "pk_test_51HPvU9DFg5koCdLGJJbNo60QAU99BejacsvnKvT8xnCu1wFLCuQP3WBArscK3RvSQmSIB3N0Pbsc7TtbQiJ1vaOi00X9sIbazL"
 );
 
 function App() {
-  const [{}, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     // will only run once when the app component loads...
+    // console.log(user.email);
 
     auth.onAuthStateChanged((authUser) => {
       console.log("THE USER IS >>> ", authUser);
@@ -51,6 +54,10 @@ function App() {
             <Header />
             <Orders />
           </Route>
+          <Route path="/profile">
+            <Header />
+            <Customer />
+          </Route>
           <Route path="/login">
             <Login />
           </Route>
@@ -61,6 +68,10 @@ function App() {
           <Route path="/seller">
             <Header />
             <Seller />
+          </Route>
+          <Route path="/product/:id">
+            <Header />
+            <ProductScreen />
           </Route>
           <Route path="/payment">
             <Header />

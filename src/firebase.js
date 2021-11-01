@@ -1,15 +1,15 @@
-
 import firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD3P-qr7Mrlg74BQymT7bykV2HYwbU8Gk8",
-  authDomain: "amz-clone-medium.firebaseapp.com",
-  databaseURL: "https://amz-clone-medium.firebaseio.com",
-  projectId: "amz-clone-medium",
-  storageBucket: "amz-clone-medium.appspot.com",
-  messagingSenderId: "769450879220",
-  appId: "1:769450879220:web:cbff61e0ee041531e456a1",
-  measurementId: "G-CZDBWXMWF7",
+  apiKey: "AIzaSyDYIgATNMNIUWjCHwfwYdRIqVXtUZvjD-g",
+  authDomain: "azmart-203e3.firebaseapp.com",
+  databaseURL:
+    "https://azmart-203e3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "azmart-203e3",
+  storageBucket: "azmart-203e3.appspot.com",
+  messagingSenderId: "73793091326",
+  appId: "1:73793091326:web:fec98af4646088f8e3d7af",
+  measurementId: "G-RTMKY7JF4M",
 };
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);

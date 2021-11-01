@@ -1,69 +1,101 @@
-import React, { useState } from 'react';
-import './Login.css'
+import React, { useState } from "react";
+import "./Login.css";
 import { Link, useHistory } from "react-router-dom";
 import { auth } from "./firebase";
+import Axios from "axios";
 
 function Login() {
-    const history = useHistory();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const signIn = e => {
-        e.preventDefault();
+  //   const signIn = () => {
+  //     Axios.post("http://localhost:3001/login", {
+  //       email: email,
+  //       password: password,
+  //     }).then((response) => {
+  //       history.push("/");
+  //     });
+  //   };
 
-        auth
-            .signInWithEmailAndPassword(email, password)
-            .then(auth => {
-                history.push('/')
-            })
-            .catch(error => alert(error.message))
-    }
+  //   const register = () => {
+  //     Axios.post("http://localhost:3001/register", {
+  //       email: email,
+  //       password: password,
+  //     }).then((response) => {
+  //       history.push("/");
+  //     });
+  //   };
 
-    const register = e => {
-        e.preventDefault();
+  const signIn = (e) => {
+    e.preventDefault();
 
-        auth
-            .createUserWithEmailAndPassword(email, password)
-            .then((auth) => {
-                // it successfully created a new user with email and password
-                if (auth) {
-                    history.push('/')
-                }
-            })
-            .catch(error => alert(error.message))
-    }
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((auth) => {
+        history.push("/");
+      })
+      .catch((error) => alert(error.message));
+  };
 
-    return (
-        <div className='login'>
-            <Link to='/'>
-                <img
-                    className="login__logo"
-                    src='https://imgur.com/vffKBid.png' 
-                />
-            </Link>
+  const register = (e) => {
+    e.preventDefault();
 
-            <div className='login__container'>
-                <h1>Sign-in</h1>
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((auth) => {
+        // it successfully created a new user with email and password
+        if (auth) {
+          history.push("/");
+        }
+      })
+      .catch((error) => alert(error.message));
+  };
 
-                <form>
-                    <h5>E-mail</h5>
-                    <input type='text' value={email} onChange={e => setEmail(e.target.value)} />
+  return (
+    <div className="login">
+      <Link to="/">
+        <img className="login__logo" src="https://imgur.com/vffKBid.png" />
+      </Link>
 
-                    <h5>Password</h5>
-                    <input type='password' value={password} onChange={e => setPassword(e.target.value)} />
+      <div className="login__container">
+        <h1>Sign-in</h1>
 
-                    <button type='submit' onClick={signIn} className='login__signInButton'>Sign In</button>
-                </form>
+        <form>
+          <h5>E-mail</h5>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-                {/* <p>
-                    By signing-in you agree to the AMAZON FAKE CLONE Conditions of Use & Sale. Please
+          <h5>Password</h5>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button
+            type="submit"
+            onClick={signIn}
+            className="login__signInButton"
+          >
+            Sign In
+          </button>
+        </form>
+
+        {/* <p>
+                    By signing-in you agree to the AZMart Conditions of Use & Sale. Please
                     see our Privacy Notice, our Cookies Notice and our Interest-Based Ads Notice.
                 </p> */}
 
-                <button onClick={register} className='login__registerButton'>Create your AZMart Account</button>
-            </div>
-        </div>
-    )
+        <button onClick={register} className="login__registerButton">
+          Create your AZMart Account
+        </button>
+      </div>
+    </div>
+  );
 }
 
-export default Login
+export default Login;

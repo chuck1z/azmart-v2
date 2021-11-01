@@ -1,37 +1,130 @@
-import React from "react";
-import "./seller.css";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
+import { Link } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
-import UploadImage from "./UploadImage";
-import { Link, useHistory } from "react-router-dom";
+import "./Seller.css";
 
-function Checkout() {
-  const [{ user }] = useStateValue();
-  const history = useHistory();
+function Seller() {
+  const [{ basket, user }, dispatch] = useStateValue();
 
-  const submit = e => {
-    e.preventDefault();
-    history.push('/')
-    }
+  const [productList, setProductList] = useState([]);
+
+  const [productName, setProductName] = useState("");
+  const [category, setCategory] = useState("");
+  const [image, setImage] = useState("");
+  const [price, setPrice] = useState("");
+  const [brand, setBrand] = useState("");
+  const [description, setDescription] = useState("");
+
+  const addProduct = () => {
+    Axios.post("http://localhost:3001/api/add", {
+      productName: productName,
+      category: category,
+      image: image,
+      seller: user,
+      price: price,
+      brand: brand,
+      description: description,
+    }).then((response) => {
+      Axios.post("http://localhost:3001/api/getseller", { user: user })
+        // Axios.get("http://localhost:3001/api/get")
+        .then((data) => {
+          console.log(data);
+          setProductList(data.data);
+        });
+    });
+  };
+
+  useEffect(() => {
+    Axios.get("http://localhost:3001/api/getseller", { user: user })
+      // Axios.get("http://localhost:3001/api/get")
+      .then((data) => {
+        console.log(data);
+        setProductList(data.data);
+      });
+  }, []);
 
   return (
-    <div className="checkout">
+    <div>
+      <div className="productform">
+        <div className="column">
+          <label>Product Name</label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setProductName(e.target.value);
+            }}
+          />
+        </div>
+        <div className="column">
+          <label>Category</label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setCategory(e.target.value);
+            }}
+          />
+        </div>
+        <div className="column">
+          <label>Image</label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setImage(e.target.value);
+            }}
+          />
+        </div>
+        <div className="column">
+          <label>Price</label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setPrice(e.target.value);
+            }}
+          />
+        </div>
+        <div className="column">
+          <label>Brand</label>
+          <input
+            type="text"
+            onChange={(e) => {
+              setBrand(e.target.value);
+            }}
+          />
+        </div>
+        <div className="column">
+          <label>Description</label>
+          <input
+            type="textarea"
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          />
+        </div>
+        <div className="column">
+          <button onClick={addProduct}>Add Product</button>
+        </div>
+      </div>
+      <div class="row center">
+        {productList.map((val, key) => {
+          return (
+            <div className="card">
+              <Link to={`/product/${val._id}`}>
+                <img class="medium" src={val.image} alt={val.name} />
+              </Link>
 
-        <form>
-          <h3>Hello, {user?.email}</h3>
-          <h2 className="checkout__title">Specify your product</h2>
-          <br/>
-            <p>Product Name</p>
-            <input type="text" name="product_name" id="product_name" /><br/><br/>
-            <p>Product Description</p>
-            <input type="text" name="product_desc" id="product_desc" /><br/><br/>
-            <p>Price</p>
-            <input type="text" name="price" id="price" /><br/><br/>
-            <p>Image</p>
-            <UploadImage /><br/><br/>
-            <button type='submit' onClick={submit} className='list__product'>Submit</button>
-        </form>
+              <div className="card-body">
+                <Link to={`/product/${val._id}`}>
+                  <h2>{val.name}</h2>
+                </Link>
+                <div className="price">$ {val.price}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
 
-export default Checkout;
+export default Seller;
